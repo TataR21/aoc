@@ -1,19 +1,16 @@
 defmodule Part1 do
-  def a() do
+  def run() do
     list = "lib/data.txt" |> File.read!() |> String.trim() |> String.split("\n")
     # list = ["199", "200", "208", "210", "200", "207", "240", "269", "260", "263"]
-
-    list =
-      Enum.map(list, fn x ->
-        {value, _} = Integer.parse(x)
-        value
-      end)
 
     list
     |> Enum.with_index()
     |> Enum.map(fn {value, index} ->
+      value = String.to_integer(value)
+      compared_value = String.to_integer(Enum.at(list, index - 1))
+
       if index != 0 do
-        if value > Enum.at(list, index - 1) do
+        if value > compared_value do
           {:ok, :increased}
         else
           {:error, :decreased}
@@ -29,15 +26,15 @@ defmodule Part1 do
 end
 
 defmodule Part2 do
-  def a() do
-    list = "lib/data.txt" |> File.read!() |> String.trim() |> String.split("\n")
-    # list = ["199", "200", "208", "210", "200", "207", "240", "269", "260", "263"]
-
+  def run() do
     list =
-      Enum.map(list, fn x ->
-        {value, _} = Integer.parse(x)
-        value
-      end)
+      "lib/data.txt"
+      |> File.read!()
+      |> String.trim()
+      |> String.split("\n")
+      |> Enum.map(&String.to_integer/1)
+
+    # list = ["199", "200", "208", "210", "200", "207", "240", "269", "260", "263"]
 
     list
     |> Enum.with_index()
